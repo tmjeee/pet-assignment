@@ -66,7 +66,7 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 
 ## End Points
 General format when successfull
-`
+```json
 {
    "ok": true,
     "messages": [
@@ -74,10 +74,10 @@ General format when successfull
     ],
     "payload": <payload - end point specific>
 }
-`
+```
 
 General format on failure 
-`
+```json
 {
     "ok": false,
     "messages": [
@@ -85,7 +85,7 @@ General format on failure
     ],
     "payload": null
 }
-`
+```
 
 
 ### Generate a new dog breed record
@@ -96,7 +96,7 @@ General format on failure
 | Java Class | `GenerateNewDogEndPoint.java` |
 
 #### Example Response:
-`json
+```json
 {
     "ok": true,
     "messages": [
@@ -109,7 +109,7 @@ General format on failure
         "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8"
     }
 }
-`
+```
 
 
 ### Retrieve by id
@@ -125,7 +125,7 @@ General format on failure
 | id | The unique Dog id |
 
 #### Example Response:
-`json
+```json
 {
     "ok": true,
     "messages": [
@@ -139,9 +139,9 @@ General format on failure
         "date": "14/01/2019 01:01:18"
     }
 }
-`
+```
 
-`json
+```json
 {
     "ok": false,
     "messages": [
@@ -149,7 +149,7 @@ General format on failure
     ],
     "payload": null
 }
-`
+```
 
 ### Remove by id
 |     |     |
@@ -164,7 +164,7 @@ General format on failure
 | id | The unique Dog id |
 
 #### Example Response:
-`json
+```json
 {
     "ok": true,
     "messages": [
@@ -172,9 +172,9 @@ General format on failure
     ],
     "payload": null
 }
-`
+```
 
-`json
+```json
 {
     "ok": false,
     "messages": [
@@ -182,7 +182,7 @@ General format on failure
     ],
     "payload": null
 }
-`
+```
 
 
 ### Search by breed name
@@ -197,7 +197,7 @@ General format on failure
 | breedName | The Breed Name (case insensitive, match substring, eg 'mino' will match 'adominodi', 'minos', amino' etc |
 
 #### Example Response:
-`json
+```json
 {
     "ok": true,
     "messages": [
@@ -241,7 +241,7 @@ General format on failure
         }
     ]
 }
-`
+```
 
 
 
@@ -253,7 +253,7 @@ General format on failure
 | Java Class | `DogBreedNamesEndPoint.java` |
 
 #### Example Response:
-`json
+```json
 {
     "ok": true,
     "messages": [
@@ -270,5 +270,5 @@ General format on failure
         ]
     }
 }
-`
+```
 

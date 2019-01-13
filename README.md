@@ -63,6 +63,19 @@ Framework / Utilities / Languages used :-`
 * configurations (eg database details, s3 bucket configs etc) done through application.properties (in the source code overridable through placing a copy at the java execution folder
 See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html) for more details.
 
+## Configurations
+Typical configurations in `application.properties`
+
+```
+...
+petapp.config.hsqldb.dbName=petapp-db
+petapp.config.hsqldb.dbPath=./db/petapp-db
+petapp.config.hsqldb.dbPort=8888
+
+petapp.config.aws.bucketName=petapp-bucket
+petapp.config.aws.bucketRegion=ap-southeast-2
+...
+```
 
 ## End Points
 General format when successfull

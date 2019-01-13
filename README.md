@@ -43,12 +43,13 @@ for our own connection information.
 Good Luck!!!
 
 # Solution 
-Framework / Utilities used :-`
+Framework / Utilities / Languages used :-`
 * SpringBoot
 * JDBI
 * AMAZON AWS Client
-* Maven
+* Maven3
 * Flyway
+* Java 
 
 ## Building
 `$> mvn clean package`
@@ -64,6 +65,28 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 
 
 ## End Points
+General format when successfull
+`json
+{
+   "ok": true,
+    "messages": [
+        <success messages>
+    ],
+    "payload": <payload - end point specific>
+}
+`
+
+General format on failure 
+`json 
+{
+    "ok": false,
+    "messages": [
+        <error messages>
+    ],
+    "payload": null
+}
+`
+
 
 ### Generate a new dog breed record
 |     |     |
@@ -72,6 +95,21 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 | Http Method | POST |
 | Java Class | `GenerateNewDogEndPoint.java` |
 
+#### Example Response:
+`json
+{
+    "ok": true,
+    "messages": [
+        "Dog of breed otterhound saved (id = 0)"
+    ],
+    "payload": {
+        "id": 0,
+        "breedName": "otterhound",
+        "creationDate": "14/01/2019 01:01:18",
+        "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8"
+    }
+}
+`
 
 
 ### Retrieve by id
@@ -80,10 +118,38 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 | End Point URI | `http://<host>:<port>/dog/{id}` |
 | Http Method | GET |
 | Java Class | `RetrievalEndPoint.java` |
+| Error | DogNotFoundException if dog not found |
 
 | Path Variable | Description |
 | ------------- | ----------- |
 | id | The unique Dog id |
+
+#### Example Response:
+`json
+{
+    "ok": true,
+    "messages": [
+        "Success"
+    ],
+    "payload": {
+        "id": 0,
+        "s3Key": "DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8",
+        "breedName": "otterhound",
+        "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8",
+        "date": "14/01/2019 01:01:18"
+    }
+}
+`
+
+`json
+{
+    "ok": false,
+    "messages": [
+        "tmjee.pet.commons.DogNotFoundException: Dog with id 1 is not found"
+    ],
+    "payload": null
+}
+`
 
 ### Remove by id
 |     |     |
@@ -91,10 +157,32 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 | End Point URI | `http://<host>:<port>/dog/{id}` |
 | Http Method | DELETE |
 | Java Class | `RemovalEndPoint.java` |
+| Error | DogNotFoundException if dog not found |
 
 | Path Variable | Description |
 | ------------- | ----------- |
 | id | The unique Dog id |
+
+#### Example Response:
+`json
+{
+    "ok": true,
+    "messages": [
+        "Dog with id 3 deleted"
+    ],
+    "payload": null
+}
+`
+
+`json
+{
+    "ok": false,
+    "messages": [
+        "tmjee.pet.commons.DogNotFoundException: Dog with id 10 is not found"
+    ],
+    "payload": null
+}
+`
 
 
 ### Search by breed name
@@ -106,7 +194,55 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 
 | Path Variable | Description |
 | ------------- | ----------- |
-| breedName | The Breed Name |
+| breedName | The Breed Name (case insensitive, match substring, eg 'mino' will match 'adominodi', 'minos', amino' etc |
+
+#### Example Response:
+`json
+{
+    "ok": true,
+    "messages": [
+        "Success"
+    ],
+    "payload": [
+        {
+            "id": 0,
+            "breedName": "otterhound",
+            "creationDate": "14/01/2019 01:01:18",
+            "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8",
+            "s3Key": "DogPicture-af16baa8-d276-45ae-939d-3f9c85d523d8"
+        },
+        {
+            "id": 1,
+            "breedName": "cotondetulear",
+            "creationDate": "14/01/2019 01:08:18",
+            "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-93cf35dd-cdd4-47df-b73d-c4dcbc50b9ef",
+            "s3Key": "DogPicture-93cf35dd-cdd4-47df-b73d-c4dcbc50b9ef"
+        },
+        {
+            "id": 2,
+            "breedName": "malinois",
+            "creationDate": "14/01/2019 01:08:21",
+            "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-749dd47c-bc70-4520-9437-663fa5c7dd89",
+            "s3Key": "DogPicture-749dd47c-bc70-4520-9437-663fa5c7dd89"
+        },
+        {
+            "id": 3,
+            "breedName": "pekinese",
+            "creationDate": "14/01/2019 01:08:24",
+            "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-8e69d354-c8e2-4c7e-94e2-7aa863a05006",
+            "s3Key": "DogPicture-8e69d354-c8e2-4c7e-94e2-7aa863a05006"
+        },
+        {
+            "id": 4,
+            "breedName": "basenji",
+            "creationDate": "14/01/2019 01:08:27",
+            "url": "https://petapp-bucket.s3.ap-southeast-2.amazonaws.com/DogPicture-daf0907e-a405-4e08-bc8c-619e5049c8f2",
+            "s3Key": "DogPicture-daf0907e-a405-4e08-bc8c-619e5049c8f2"
+        }
+    ]
+}
+`
+
 
 
 ### Find breed names
@@ -115,4 +251,24 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 | End Point URI | `http://<host>:<port>/dog/breeds` |
 | Http Method | GET |
 | Java Class | `DogBreedNamesEndPoint.java` |
+
+#### Example Response:
+`json
+{
+    "ok": true,
+    "messages": [
+        "success"
+    ],
+    "payload": {
+        "breeds": [
+            "otterhound",
+            "cotondetulear",
+            "malinois",
+            "pekinese",
+            "basenji",
+            "kuvasz"
+        ]
+    }
+}
+`
 

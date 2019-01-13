@@ -118,8 +118,8 @@ public class DbService {
         return jdbi.inTransaction((Handle h) ->
             h.createQuery(
                     "SELECT ID, BREED_NAME, DATE, S3_LOCATION, S3_KEY FROM TBL_STORAGE " +
-                            "WHERE BREED_NAME LIKE :breed_name")
-                    .bind("breed_name", "%" + breedName + "%")
+                            "WHERE LOWER(BREED_NAME) LIKE :breed_name")
+                    .bind("breed_name", "%" + breedName.toLowerCase() + "%")
                     .map((r, columnNumber, ctx) ->
                             new DogRetrievalOutput(
                                     r.getInt("ID"),

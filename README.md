@@ -66,7 +66,7 @@ See [Spring docs](https://docs.spring.io/spring-boot/docs/current/reference/html
 
 ## End Points
 General format when successfull
-`json
+`
 {
    "ok": true,
     "messages": [
@@ -77,7 +77,7 @@ General format when successfull
 `
 
 General format on failure 
-`json 
+`
 {
     "ok": false,
     "messages": [
